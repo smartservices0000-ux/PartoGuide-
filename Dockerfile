@@ -2,13 +2,15 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY frontend/package*.json ./frontend/
-COPY backend/package*.json ./backend/
-RUN npm install
-
 COPY . .
 
+RUN npm install
+RUN npm install --prefix frontend
+RUN npm install --prefix backend
+
 RUN npm run build --prefix frontend
+
+ENV PORT=8080
+ENV GOOGLE_CLOUD_LOCATION=europe-west1
 
 CMD ["node", "backend/server.js"]
