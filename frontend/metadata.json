@@ -1,0 +1,8 @@
+
+{
+  "name": "PartoAnaliz AI",
+  "description": "WHO ve T.C. Sağlık Bakanlığı rehberlerine göre partograf grafiklerini analiz eden yapay zeka destekli asistan.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
