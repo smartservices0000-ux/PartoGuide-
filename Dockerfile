@@ -2,11 +2,10 @@ FROM node:18
 
 WORKDIR /app
 
-COPY . .
-
+COPY package*.json ./
 RUN npm install
-RUN npm run build
 
-EXPOSE 8080
+COPY . .
+RUN npm run build
 
 CMD ["npm", "run", "start"]
