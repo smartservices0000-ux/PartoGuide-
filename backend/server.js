@@ -217,7 +217,9 @@ app.post('/api-proxy', async (req, res) => {
   }
 });
 
-// تشغيل السيرفر على 0.0.0.0 لضمان وصول الطلبات في Cloud Run
-app.listen(PORT, API_BACKEND_HOST, () => {
-  console.log(`Backend listening on ${API_BACKEND_HOST}:${PORT}`);
+const PORT = process.env.PORT || 8080;
+const HOST = '0.0.0.0'; 
+
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
