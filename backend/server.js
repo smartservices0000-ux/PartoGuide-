@@ -11,24 +11,20 @@ import rateLimit from 'express-rate-limit';
 
 const app = express();
 
-// إعدادات المنفذ والمضيف ليتناسب مع Cloud Run
-// جوجل كلاود يمرر المنفذ عبر متغير البيئة PORT، ويجب الاستماع على 0.0.0.0
-const PORT = process.env.PORT || process.env.API_BACKEND_PORT || 8080;
-const API_BACKEND_HOST = "0.0.0.0"; 
+const PORT = process.env.PORT || 8080;
+const API_BACKEND_HOST = "0.0.0.0";
 
 const GOOGLE_CLOUD_LOCATION = process.env.GOOGLE_CLOUD_LOCATION;
 const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT;
 
 app.use(express.json({limit: process.env.API_PAYLOAD_MAX_SIZE || "7mb"}));
 
-// التحقق من المتغيرات الأساسية (تأكد من إضافتها في إعدادات Cloud Run)
 if (!GOOGLE_CLOUD_PROJECT || !GOOGLE_CLOUD_LOCATION) {
   console.warn("Warning: GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_LOCATION not set. Proxy might fail.");
 }
 
 app.set('trust proxy', 1);
 
-// Rate limiter
 const proxyLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
@@ -217,9 +213,6 @@ app.post('/api-proxy', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8080;
-const HOST = '0.0.0.0'; 
-
-app.listen(PORT, HOST, () => {
+app.listen(PORT, API_BACKEND_HOST, () => {
     console.log(`Server is running on port ${PORT}`);
 });
