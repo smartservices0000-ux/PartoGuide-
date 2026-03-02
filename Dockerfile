@@ -13,7 +13,3 @@ ENV PORT=8080
 ENV GOOGLE_CLOUD_LOCATION=europe-west1
 
 CMD ["node", "backend/server.js"]
-```
-
-```
-RUN npm install
