@@ -211,4 +211,18 @@ app.post('/api-proxy', async (req, res) => {
       apiResponse.body.on('end', () => res.end());
     } else {
       const data = await apiResponse.json();
-      res.status(apiResponse.sta
+      res.status(apiResponse.status).json(data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.get('/{*path}', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+app.listen(PORT, API_BACKEND_HOST, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
